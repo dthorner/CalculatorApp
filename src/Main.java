@@ -33,9 +33,11 @@ public class Main extends Application {
     Button four, five, six, subtract;
     Button one, two, three, add;
     Button zero, decimal, equals;
-    float num = 0;
-    String numString = "0";
-    String operator;
+    float current = 0;
+    String currentString = "0";
+    String operator = "";
+    float saved;
+    String savedString;
 
     public static void main(String args[]){
         launch(args);
@@ -44,28 +46,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        numString = String.valueOf(num);
 
-        //First row: input
-        textField = new Label("0");
+        //First row: input (textField)
+        textField = new Label(currentString);
         textField.setPadding(new Insets(0, 10, 5, 5));
         textField.setAlignment(Pos.BASELINE_RIGHT);
         textField.setFont(new Font(50));
         textField.setPrefSize(240, 60);
-
         HBox hBoxOne = new HBox(textField);
-
-
         //Second row
         clear = new Button("AC");
-        clear.setOnAction(new EventHandler<ActionEvent>(){      //clear button
-            @Override
-            public void handle(ActionEvent event) {
-                num = 0;
-                numString = "0";
-                textField.setText(numString);
-            }
-        });
         negate = new Button("+/-");
         percent = new Button("%");
         divide = new Button("÷");
@@ -74,7 +64,6 @@ public class Main extends Application {
         negate.setPrefSize(60, 50);
         divide.setPrefSize(60, 50);
         HBox hBoxTwo = new HBox(clear, negate, percent, divide);
-
         //Third row
         seven = new Button("7");
         eight = new Button("8");
@@ -85,7 +74,6 @@ public class Main extends Application {
         nine.setPrefSize(60, 50);
         multiply.setPrefSize(60, 50);
         HBox hBoxThree = new HBox(seven, eight, nine, multiply);
-
         //Fourth row
         four = new Button("4");
         five = new Button("5");
@@ -96,7 +84,6 @@ public class Main extends Application {
         six.setPrefSize(60, 50);
         subtract.setPrefSize(60, 50);
         HBox hBoxFour = new HBox(four, five, six, subtract);
-
         //Fifth row
         one = new Button("1");
         two = new Button("2");
@@ -107,7 +94,6 @@ public class Main extends Application {
         three.setPrefSize(60, 50);
         add.setPrefSize(60, 50);
         HBox hBoxFive = new HBox(one, two, three, add);
-
         //Sixth row
         zero = new Button("0");
         decimal = new Button(".");
@@ -117,43 +103,13 @@ public class Main extends Application {
         equals.setPrefSize(60, 50);
         HBox hBoxSix = new HBox(zero, decimal, equals);
 
+        //Layout is a VBox full of HBoxes
         layout = new VBox(hBoxOne, hBoxTwo, hBoxThree, hBoxFour, hBoxFive, hBoxSix);
-
+        //create scene with specified layout
         scene = new Scene(layout, 240, 310);
-
-        //Handling key events with event handler on scene
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, (key) -> {
-            String keyString = key.getText().toString();
-
-            if(key.getCode().isDigitKey()){     //Handling digit keys 0-9
-                if(num != 0){
-                    numString += keyString;
-                    num = Float.valueOf(numString);
-                } else{
-                    numString = keyString;
-                    num = Float.valueOf(keyString);
-                }
-                textField.setText(numString);
-            } else if(key.getCode() == KeyCode.PERIOD && !numString.contains(".")){     //Handling decimal point key
-                numString += ".";
-                num = Float.valueOf(numString);
-                textField.setText(numString);
-            } else if(key.getCode() == KeyCode.BACK_SPACE && !numString.isEmpty()){     //Handling backspace key
-                if(numString.length() <= 1){
-                    System.out.println("Empty");
-                    numString = "0";
-                    num = 0;
-                } else{
-                    numString = numString.substring(0, numString.length()-1);
-                    num = Float.valueOf(numString);
-                }
-                textField.setText(numString);
-            }
-        });
-
+        //settings the stage
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-
     }
 }
