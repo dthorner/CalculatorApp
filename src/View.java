@@ -21,7 +21,7 @@ import sun.plugin.javascript.navig.Anchor;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends Application {
+public class View extends Application {
 
 
     Stage stage;
@@ -33,11 +33,8 @@ public class Main extends Application {
     Button four, five, six, subtract;
     Button one, two, three, add;
     Button zero, decimal, equals;
-    float current = 0;
-    String currentString = "0";
-    String operator = "";
-    float saved;
-    String savedString;
+    Model model;
+    Controller controller;
 
     public static void main(String args[]){
         launch(args);
@@ -46,9 +43,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
+        model = new Model();
+        controller = new Controller(this.model, this);
 
         //First row: input (textField)
-        textField = new Label(currentString);
+        textField = new Label(model.getCurrentString());
         textField.setPadding(new Insets(0, 10, 5, 5));
         textField.setAlignment(Pos.BASELINE_RIGHT);
         textField.setFont(new Font(50));
@@ -107,9 +106,19 @@ public class Main extends Application {
         layout = new VBox(hBoxOne, hBoxTwo, hBoxThree, hBoxFour, hBoxFive, hBoxSix);
         //create scene with specified layout
         scene = new Scene(layout, 240, 310);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
+            controller.handleKey(key);
+        });
         //settings the stage
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setTextField(String text){
+        this.textField.setText(text);
+    }
+    public void updateTextFieldCurrent(){
+        this.textField.setText(model.getCurrentString());
     }
 }
