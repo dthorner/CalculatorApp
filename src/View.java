@@ -1,25 +1,13 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import sun.plugin.javascript.navig.Anchor;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class View extends Application {
 
@@ -120,5 +108,8 @@ public class View extends Application {
     }
     public void updateTextFieldCurrent(){
         this.textField.setText(model.getCurrentString());
+    }
+    public void updateTextFieldSaved(){
+        this.textField.setText(model.getSavedString());
     }
 }

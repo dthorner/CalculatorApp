@@ -15,6 +15,8 @@ public class Model {
         first = true;
     }
 
+
+
     public float getCurrent() {
         return current;
     }
